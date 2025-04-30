@@ -1,6 +1,19 @@
+# Dependencias
 node_modules/
+
+# Archivos de entorno y credenciales
 .env
-*.log
-.DS_Store
 credentials.json
-*.pem 
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Directorios y archivos temporales
+/temp
+*.tmp 

@@ -1,8 +1,20 @@
 {
+  "name": "bot-gastos",
+  "version": "1.0.0",
+  "description": "Bot de Telegram para control de gastos",
+  "main": "index.js",
   "dependencies": {
     "axios": "^1.8.4",
+    "bot-gastos": "file:",
     "dotenv": "^16.5.0",
     "googleapis": "^148.0.0",
     "telegraf": "^4.16.3"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

@@ -123,7 +123,7 @@ O escribe el tipo de gasto:`);
       await googleSheets.appendGasto(ctx.from, ctx.session, fileUrl);
       await ctx.reply('✅ Gasto guardado con éxito.');
     } catch (err) {
-      console.error(err);
+      console.error('Error en gastosFlow:', err);
       await ctx.reply('❌ Ocurrió un error al guardar el gasto.');
     }
 
