@@ -4,10 +4,24 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-const auth = new google.auth.GoogleAuth({
-  keyFile: 'credentials.json',
-  scopes: ['https://www.googleapis.com/auth/drive']
-});
+// Configurar autenticación de Google Drive
+let auth;
+if (process.env.GOOGLE_CREDENTIALS) {
+  // Si las credenciales están en una variable de entorno (para Railway u otros servicios en la nube)
+  const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+  auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/drive']
+  });
+  console.log('[Drive] Usando credenciales desde variable de entorno');
+} else {
+  // Si las credenciales están en un archivo local (para desarrollo)
+  auth = new google.auth.GoogleAuth({
+    keyFile: 'credentials.json',
+    scopes: ['https://www.googleapis.com/auth/drive']
+  });
+  console.log('[Drive] Usando credenciales desde archivo credentials.json');
+}
 
 const drive = google.drive({ version: 'v3', auth });
 

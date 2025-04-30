@@ -1,12 +1,26 @@
 const { google } = require('googleapis');
 
-const auth = new google.auth.GoogleAuth({
-  keyFile: 'credentials.json',
-  scopes: ['https://www.googleapis.com/auth/spreadsheets']
-});
+// Configurar autenticación de Google Sheets
+let auth;
+if (process.env.GOOGLE_CREDENTIALS) {
+  // Si las credenciales están en una variable de entorno (para Railway u otros servicios en la nube)
+  const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
+  auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets']
+  });
+  console.log('[Sheets] Usando credenciales desde variable de entorno');
+} else {
+  // Si las credenciales están en un archivo local (para desarrollo)
+  auth = new google.auth.GoogleAuth({
+    keyFile: 'credentials.json',
+    scopes: ['https://www.googleapis.com/auth/spreadsheets']
+  });
+  console.log('[Sheets] Usando credenciales desde archivo credentials.json');
+}
 
 const sheets = google.sheets({ version: 'v4', auth });
-const SPREADSHEET_ID = '1CNyD_seHZZyB-2NPusYEpNGF8m5LzUz87RHIYitfnAU';
+const SPREADSHEET_ID = process.env.SPREADSHEET_ID || '1CNyD_seHZZyB-2NPusYEpNGF8m5LzUz87RHIYitfnAU';
 const SHEET_NAME = 'Pagos';
 
 const appendGasto = async (user, data, fileUrl) => {

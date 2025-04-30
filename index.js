@@ -3,6 +3,13 @@ const gastosFlow = require('./handlers/gastosFlow');
 const gastosMultiplesFlow = require('./handlers/gastosMultiplesFlow');
 require('dotenv').config();
 
+// Verificar variables de entorno críticas
+if (!process.env.BOT_TOKEN) {
+    console.error('ERROR: Variable de entorno BOT_TOKEN no configurada');
+    console.error('Por favor, configura la variable BOT_TOKEN en tu archivo .env o en las variables de entorno del sistema');
+    process.exit(1);
+}
+
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 // Configurar middleware de sesión
@@ -229,6 +236,9 @@ bot.catch((err, ctx) => {
 bot.launch()
     .then(() => {
         console.log('🤖 Bot de gastos iniciado y listo para usar...');
+        console.log(`Token: ${process.env.BOT_TOKEN ? 'Configurado ✓' : 'NO CONFIGURADO ✗'}`);
+        console.log(`Google Drive Folder ID: ${process.env.DRIVE_FOLDER_ID ? 'Configurado ✓' : 'NO CONFIGURADO ✗'}`);
+        console.log(`Google Credentials: ${process.env.GOOGLE_CREDENTIALS ? 'Configurado ✓' : 'Usando archivo local'}`);
     })
     .catch(err => {
         console.error('Error al iniciar el bot:', err);
