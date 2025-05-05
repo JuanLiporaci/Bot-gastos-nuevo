@@ -32,7 +32,7 @@ const appendGasto = async (user, data, fileUrl) => {
   const values = [[
     user.username || user.first_name || user.id, // Usuario
     new Date().toLocaleString('es-VE', { timeZone: 'America/Caracas' }), // Fecha y Hora
-    isMult ? data.fecha : new Date().toLocaleDateString('es-VE'), // Fecha de gasto (para múltiples, usar el rango ingresado)
+    isMult ? data.fecha : (data.fechaGasto || new Date().toLocaleDateString('es-VE')), // Fecha de gasto (usar la fecha proporcionada)
     isMult ? data.categoria : data.tipo, // Tipo de Gasto
     data.monto, // Monto
     data.comentario || '', // Comentario

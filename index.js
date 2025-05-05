@@ -170,8 +170,9 @@ bot.on('text', async (ctx) => {
     }
 
     // Manejo de estados para gasto individual
-    if (['tipo', 'monto', 'comentario', 'comentarioLibre', 'metodo', 'esperandoOtro'].includes(estado)) {
+    if (['tipo', 'fechaGasto', 'monto', 'comentario', 'comentarioLibre', 'metodo', 'esperandoOtro'].includes(estado)) {
         if (estado === 'tipo') return gastosFlow.handleTipo(ctx);
+        if (estado === 'fechaGasto') return gastosFlow.handleFechaGasto(ctx);
         if (estado === 'monto') return gastosFlow.handleMonto(ctx);
         if (estado === 'comentario' || estado === 'comentarioLibre') return gastosFlow.handleComentario(ctx);
         if (estado === 'metodo') return gastosFlow.handleMetodo(ctx);

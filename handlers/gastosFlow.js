@@ -47,12 +47,31 @@ O escribe el tipo de gasto:`);
       ctx.session.tipo = input;
     }
 
+    ctx.session.estado = 'fechaGasto';
+    return ctx.reply('¿En qué fecha se realizó el gasto? Usa el formato MM/DD (ejemplo: 04/25) 📅');
+  },
+
+  handleFechaGasto: async (ctx) => {
+    const fechaInput = ctx.message.text.trim();
+    const fechaRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])$/;
+    
+    if (!fechaRegex.test(fechaInput)) {
+      return ctx.reply('Formato de fecha inválido ❌\nUsa el formato MM/DD\nPor ejemplo: 04/25');
+    }
+    
+    ctx.session.fechaGasto = fechaInput;
     ctx.session.estado = 'monto';
     return ctx.reply('¿Cuál fue el monto total del gasto? 💰');
   },
 
   handleMonto: async (ctx) => {
     const text = ctx.message.text.trim();
+    
+    // Si venimos de la pregunta de fecha pero el usuario escribió algo que no es un número
+    if (ctx.session.estado === 'fechaGasto') {
+      return module.exports.handleFechaGasto(ctx);
+    }
+    
     ctx.session.monto = text;
     ctx.session.estado = 'comentario';
     return ctx.reply(`¿Deseas añadir un comentario o detalle adicional? ✏️
