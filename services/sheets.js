@@ -28,8 +28,9 @@ const appendGasto = async (user, data, fileUrl) => {
   const isMult = data.tipo === 'multiple';
   
   // Preparar valores según el formato definido
-  // Columnas: Fecha y Hora | Fecha de gasto | Tipo de Gasto | Monto | Comentario | Metodo | Enlace al archivo
+  // Columnas: Usuario | Fecha y Hora | Fecha de gasto | Tipo de Gasto | Monto | Comentario | Metodo | Enlace al archivo
   const values = [[
+    user.username || user.first_name || user.id, // Usuario
     new Date().toLocaleString('es-VE', { timeZone: 'America/Caracas' }), // Fecha y Hora
     isMult ? data.fecha : new Date().toLocaleDateString('es-VE'), // Fecha de gasto (para múltiples, usar el rango ingresado)
     isMult ? data.categoria : data.tipo, // Tipo de Gasto
